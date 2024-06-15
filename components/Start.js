@@ -6,12 +6,30 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  Alert,
 } from 'react-native';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
   const [background, setBackground] = useState('');
   const colors = ['#090c08', '#474056', '#8a95a5', '#b9c6ae'];
+  const auth = getAuth();
+
+  const signIn = async () => {
+    try {
+      const result = await signInAnonymously(auth);
+      navigation.navigate('Chat', {
+        userID: result.user.uid,
+        name,
+        background,
+      });
+      Alert.alert('Signed in Successfully!');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Unable to sign in, try later again.');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -48,12 +66,13 @@ const Start = ({ navigation }) => {
           {/* Button to start chat. If no color or username are set, default values are provided \*/}
           <TouchableOpacity
             style={styles.chatButton}
-            onPress={() =>
-              navigation.navigate('Chat', {
-                name: name || `User${Math.floor(Math.random() * 9999)}`,
-                background: background || colors[1],
-              })
-            }
+            onPress={() => {
+              if (name == '') {
+                Alert.alert('You need a username');
+              } else {
+                signIn();
+              }
+            }}
           >
             <Text style={styles.buttonText}>Enter the Chat</Text>
           </TouchableOpacity>
