@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
-  Image,
 } from 'react-native';
 
 const Start = ({ navigation }) => {
@@ -30,7 +29,6 @@ const Start = ({ navigation }) => {
             value={name}
             onChangeText={setName}
             placeholder='Your Name'
-            maxLength='15'
           />
           {/* Select background color of chat \*/}
           <Text style={styles.selectColorText}>Select a background color</Text>
@@ -57,7 +55,7 @@ const Start = ({ navigation }) => {
               })
             }
           >
-            <Text style={styles.buttonText}>Enter Chat</Text>
+            <Text style={styles.buttonText}>Enter the Chat</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -68,54 +66,58 @@ const Start = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    alignContent: 'space-around',
   },
   bgImage: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
   },
   appTitle: {
+    marginHorizonal: 'auto',
     fontSize: 45,
     fontWeight: '600',
-    alignSelf: 'auto',
     letterSpacing: 1.5,
     color: '#ffffff',
     textShadowColor: '#0e0000a0',
     textShadowOffset: { width: 3, height: 2 },
     textShadowRadius: 6,
-    margin: 20,
   },
   box: {
+    maxHeight: 400,
+    flex: 1,
     backgroundColor: '#FFE7E6af',
-    padding: 30,
-    width: '88%',
-    height: '44%',
-    alignContent: 'space-around',
+    gap: 10,
+    flexShrink: 1,
+    flexBasis: 'auto',
+    minHeight: 300,
+    width: '94%',
+    height: '54%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
+    alignContent: 'center',
     borderColor: '#757083af',
     borderWidth: 4,
     shadowColor: '#000000a0',
     shadowOpacity: 0.7,
     shadowRadius: 6,
     shadowOffset: { width: 3, height: 2 },
-    borderRadius: 6,
+    borderRadius: 15,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   textInput: {
     fontSize: 16,
+    marginTop: 2,
+    borderBottomLeftRadius: 15,
+    borderTopRightRadius: 15,
+    textAlign: 'center',
     fontWeight: '600',
     color: '#757083',
     backgroundColor: '#ffffeef0',
-    width: '88%',
-    placeholderTextColor: '#757083',
-    padding: 10,
-    paddingVertical: 15,
+    width: '92%',
+    height: 50,
+
     borderWidth: 1,
-    marginBottom: 15,
     borderColor: '#757083fa',
     borderWidth: 4,
     shadowColor: '#f65b7455',
@@ -130,8 +132,11 @@ const styles = StyleSheet.create({
   },
   colorOptionsBox: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 20,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    minHeight: 25,
+    padding: 10,
+    gap: 15,
   },
   colorButton: {
     width: 50,
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderColor: '#fff',
     borderWidth: 2.5,
-    margin: 5,
+    margin: 1,
     shadowColor: '#210003',
     shadowOpacity: 0.5,
     shadowRadius: 5,
@@ -153,20 +158,22 @@ const styles = StyleSheet.create({
     shadowColor: '#150001',
   },
   chatButton: {
-    alignItems: 'center',
+    textAlign: 'center',
     backgroundColor: '#757083',
-    wdith: '88%',
+    width: 200,
     padding: 10,
     borderWidth: 2.5,
-    borderColor: '#ffffffa0',
-    shadowColor: '#000000a0',
-    shadowOpacity: 0.7,
+    shadowColor: 'hsla(0, 0%, 0%, .5)',
     shadowRadius: 2,
-    shadowOffset: { width: 3, height: 2 },
+    shadowOffset: { width: 2, height: 3 },
     borderRadius: 5,
+    borderTopWidth: 3,
+    borderColor: 'hsla(0, 0%, 100%, 0.5)',
   },
   buttonText: {
+    marginHorizontal: 'auto',
     fontSize: 16,
+    width: 115,
     fontWeight: '600',
     color: '#ffffff',
   },
