@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, LogBox } from 'react-native';
+import { StyleSheet, Text, View, LogBox, Alert } from 'react-native';
+import { useEffect } from 'react';
 
 // import the screens
 import Start from './components/Start';
@@ -11,12 +12,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Firebase
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import {
+  getFirestore,
+  enableNetwork,
+  disableNetwork,
+} from 'firebase/firestore';
+
+import { useNetInfo } from '@react-native-community/netinfo';
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
-LogBox.ignoreAllLogs();
+// LogBox.ignoreAllLogs();
 
 const App = () => {
   // Your web app's Firebase configuration
@@ -35,13 +42,30 @@ const App = () => {
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore(app);
 
+  const connectionStatus = useNetInfo();
+
+  useEffect(() => {
+    if (connectionStatus.isConnected === false) {
+      Alert.alert('Connection Lost!');
+      disableNetwork(db);
+    } else if (connectionStatus.isConnected === true) {
+      enableNetwork(db);
+    }
+  }, [connectionStatus.isConnected]);
+
   return (
     <NavigationContainer>
       <StatusBar style='auto' />
       <Stack.Navigator initialRouteName='Start'>
         <Stack.Screen name='Start' component={Start} />
         <Stack.Screen name='Chat'>
-          {(props) => <Chat db={db} {...props} />}
+          {(props) => (
+            <Chat
+              db={db}
+              isConnected={connectionStatus.isConnected}
+              {...props}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
