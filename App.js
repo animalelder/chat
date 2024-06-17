@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, LogBox, Alert } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { useEffect } from 'react';
 
 // import the screens
@@ -17,13 +17,23 @@ import {
   enableNetwork,
   disableNetwork,
 } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 import { useNetInfo } from '@react-native-community/netinfo';
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
-// LogBox.ignoreAllLogs();
+const error = console.error;
+console.error = (...args) => {
+  if (/defaultProps/.test(args[0])) return;
+  error(...args);
+};
+const warning = console.warn;
+console.warn = (...args) => {
+  if (/asyncStorage/.test(args[0])) return;
+  error(...args);
+};
 
 const App = () => {
   // Your web app's Firebase configuration
@@ -38,6 +48,7 @@ const App = () => {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
 
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore(app);
@@ -62,6 +73,7 @@ const App = () => {
           {(props) => (
             <Chat
               db={db}
+              storage={storage}
               isConnected={connectionStatus.isConnected}
               {...props}
             />

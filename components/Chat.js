@@ -20,10 +20,13 @@ import {
   onSnapshot,
   query,
   orderBy,
+  limit,
 } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 
-const Chat = ({ route, navigation, db, isConnected }) => {
+const Chat = ({ route, navigation, db, storage, isConnected }) => {
   const { userID } = route.params;
   const { name, background } = route.params;
   const [messages, setMessages] = useState([]);
@@ -57,7 +60,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   };
 
   const renderInputToolbar = (props) => {
-    if (isConnected) return <InputToolbar {...props} />;
+    if (Boolean(isConnected)) return <InputToolbar {...props} />;
     else return null;
   };
 
@@ -68,7 +71,11 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       if (unsubMessages) unsubMessages();
       unsubMessages = null;
 
-      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      const q = query(
+        collection(db, 'messages'),
+        orderBy('createdAt', 'desc'),
+        limit(20)
+      );
 
       unsubMessages = onSnapshot(q, (docs) => {
         let newMessages = [];
@@ -97,12 +104,40 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     }
   };
 
+  const renderCustomActions = (props) => {
+    return <CustomActions userID={userID} storage={storage} {...props} />;
+  };
+
+  const renderCustomView = (props) => {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: background }]}>
       <GiftedChat
+        accessible={true}
+        accessibilityLabel='send'
+        accessibilityHint='Sends a message'
+        accessibilityRole='button'
         messages={messages}
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         showUserAvatar
         renderAvatarOnTop
         renderUsernameOnMessage
