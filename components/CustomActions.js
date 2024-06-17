@@ -99,7 +99,7 @@ const CustomActions = ({
       accessible={true}
       accessibilityLabel='More send options'
       accessibilityHint='Upload an image, take a picture, or send your location'
-      accessibilityRole='button'
+      accessibilityRole='spinbutton'
     >
       <View style={[styles.wrapper, wrapperStyle]}>
         <Text style={[styles.iconText, iconTextStyle]}>+</Text>
