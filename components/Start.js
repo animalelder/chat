@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ImageBackground,
-  Alert,
-} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Alert } from 'react-native';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const Start = ({ navigation }) => {
@@ -33,22 +25,11 @@ const Start = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../img/BackgroundImage.png')}
-        style={styles.bgImage}
-        resizeMode='cover'
-      >
+      <ImageBackground source={require('../img/BackgroundImage.png')} style={styles.bgImage} resizeMode='cover'>
         <Text style={styles.appTitle}>Let's Chat!</Text>
         <View style={styles.box}>
-          {/* Let user choose a name \*/}
+          <TextInput style={styles.textInput} value={name} onChangeText={setName} placeholder='Your Name' />
 
-          <TextInput
-            style={styles.textInput}
-            value={name}
-            onChangeText={setName}
-            placeholder='Your Name'
-          />
-          {/* Select background color of chat \*/}
           <Text style={styles.selectColorText}>Select a background color</Text>
           <View style={styles.colorOptionsBox}>
             {colors.map((color, index) => (
@@ -63,7 +44,6 @@ const Start = ({ navigation }) => {
               />
             ))}
           </View>
-          {/* Button to start chat. If no color or username are set, default values are provided \*/}
           <TouchableOpacity
             style={styles.chatButton}
             onPress={() => {
