@@ -84,6 +84,6 @@ Navigate to the chat-app directory and run
 5. Install Expo Go app on your mobile device, so that you can test your app on your own mobile device
 6. Open Expo Go on your mobile device and select the development server.
 
-### Screenshot Example of the chat after completing setup
+### Screenshots on iOS
 
-<img src="assets/screenshot_android.png" height="600" width="auto" alt="Screenshot from the app" />
+<img src="assets/lets_chat.png" height="650" width="auto" alt="Screenshots from the app" />
